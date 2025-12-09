@@ -74,7 +74,7 @@
     }
   ],
 
-  "gammaCorrection": true,
-  "gamma": 2.2,
+  "isGammaCorrectionEnabled": true,
+  "gammaCorrection": 2.2,
   "symmetryLevel": 3
 }
