@@ -1,0 +1,44 @@
+{
+  "size": {
+    "width": 800,
+    "height": 600
+  },
+  "iterationCount": 1000,
+  "outputPath": "test_result.png",
+  "threads": 2,
+  "seed": 42,
+
+  "functions": [
+    {
+      "name": "swirl",
+      "weight": 1.0
+    },
+    {
+      "name": "horseshoe",
+      "weight": 0.8
+    }
+  ],
+
+  "affineParams": [
+    {
+      "a": 0.5,
+      "b": 0.0,
+      "c": 0.0,
+      "d": 0.0,
+      "e": 0.5,
+      "f": 0.0
+    },
+    {
+      "a": 0.3,
+      "b": 0.0,
+      "c": 0.5,
+      "d": 0.0,
+      "e": 0.3,
+      "f": 0.5
+    }
+  ],
+
+  "gammaCorrection": true,
+  "gamma": 2.2,
+  "symmetryLevel": 3
+}
