@@ -80,15 +80,15 @@ public class FlameConfigTests
     public void Ctor_WithNullOutputPath_ShouldThrow()
     {
         var size = new Size(100, 100);
-        
-        var functions = new List<FunctionConfig> 
-        { 
-            new("linear", 1.0) 
+
+        var functions = new List<FunctionConfig>
+        {
+            new("linear", 1.0)
         };
 
-        var affineParams = new List<AffineParameters> 
-        { 
-            new(0.5, 0, 0, 0, 0.5, 0) 
+        var affineParams = new List<AffineParameters>
+        {
+            new(0.5, 0, 0, 0, 0.5, 0)
         };
 
         var act = () => new FlameConfig(
@@ -116,9 +116,9 @@ public class FlameConfigTests
     {
         var size = new Size(100, 100);
 
-        var affineParams = new List<AffineParameters> 
-        { 
-            new(0.5, 0, 0, 0, 0.5, 0) 
+        var affineParams = new List<AffineParameters>
+        {
+            new(0.5, 0, 0, 0, 0.5, 0)
         };
 
         var act = () => new FlameConfig(
@@ -146,9 +146,9 @@ public class FlameConfigTests
     {
         var size = new Size(100, 100);
 
-        var functions = new List<FunctionConfig> 
-        { 
-            new("linear", 1.0) 
+        var functions = new List<FunctionConfig>
+        {
+            new("linear", 1.0)
         };
 
         var act = () => new FlameConfig(

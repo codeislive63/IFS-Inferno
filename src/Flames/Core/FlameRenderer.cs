@@ -41,7 +41,7 @@ public sealed class FlameRenderer
         _cumulativeWeights = new double[_functions.Count];
 
         double totalWeight = 0;
-        
+
         for (int i = 0; i < _functions.Count; i++)
         {
             var weight = Math.Max(0.0, _functions[i].Weight);

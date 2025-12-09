@@ -39,7 +39,7 @@ try
     if (errors.Count > 0)
     {
         Console.Error.WriteLine("Ошибки валидации конфигурации:");
-        
+
         foreach (var error in errors)
         {
             Console.Error.WriteLine($"  - {error}");

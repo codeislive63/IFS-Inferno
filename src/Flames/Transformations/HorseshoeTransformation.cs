@@ -14,7 +14,7 @@ public sealed class HorseshoeTransformation : ITransformation
         double x = point.X;
         double y = point.Y;
         double r = Math.Sqrt(x * x + y * y);
-        
+
         if (r == 0.0)
         {
             return new Point(0, 0);

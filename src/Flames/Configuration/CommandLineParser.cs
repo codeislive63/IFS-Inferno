@@ -150,7 +150,7 @@ public static class CommandLineParser
         foreach (var part in parts)
         {
             var colonIndex = part.IndexOf(':');
-            
+
             if (colonIndex <= 0 || colonIndex >= part.Length - 1)
             {
                 continue;
@@ -177,7 +177,7 @@ public static class CommandLineParser
         foreach (var part in parts)
         {
             var values = part.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-            
+
             if (values.Length != 6)
             {
                 continue;

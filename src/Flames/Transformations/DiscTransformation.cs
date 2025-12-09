@@ -17,7 +17,7 @@ public sealed class DiscTransformation : ITransformation
         var y = point.Y;
 
         var r = Math.Sqrt(x * x + y * y);
-        
+
         if (r == 0)
         {
             return point;
