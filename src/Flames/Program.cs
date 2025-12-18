@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Flames.Application;
 using Flames.Configuration;
 using Flames.Configuration.Exceptions;
 using Flames.Core;
@@ -28,9 +29,9 @@ try
 
     var (cliConfig, configPath, parseExitCode) = CommandLineParser.Parse(commandLineArgs);
 
-    if (parseExitCode != 0)
+    if (parseExitCode != ExitCode.Success)
     {
-        Environment.Exit(parseExitCode);
+        Environment.Exit((int)parseExitCode);
     }
 
     FlameConfig? jsonConfig = null;
@@ -54,7 +55,7 @@ try
             logger.LogError(" - {Error}", error);
         }
 
-        Environment.Exit(1);
+        Environment.Exit((int)ExitCode.UserError);
     }
 
     logger.LogInformation(
@@ -65,7 +66,7 @@ try
         config.Threads
     );
 
-    var flameFunctions = BuildFlameFunctions(config, logger);
+    var flameFunctions = BuildFlameFunctions(config);
 
     var rendererLogger = loggerFactory.CreateLogger<FlameRenderer>();
     var renderer = new FlameRenderer(config, flameFunctions, rendererLogger);
@@ -75,30 +76,37 @@ try
     stopwatch.Stop();
 
     logger.LogInformation("Генерация завершена за {Seconds:F3} секунд", stopwatch.Elapsed.TotalSeconds);
+
+    Environment.Exit((int)ExitCode.Success);
 }
 catch (ConfigurationException ex)
 {
     logger.LogError(ex, "Ошибка конфигурации");
-    Environment.Exit(1);
+    Environment.Exit((int)ExitCode.ConfigError);
 }
 catch (Exception ex)
 {
     logger.LogCritical(ex, "Критическая ошибка");
-    Environment.Exit(1);
+    Environment.Exit((int)ExitCode.RuntimeError);
 }
 
 /// <summary>
-/// Строит набор функций пламени на основе конфигурации
+/// Строит набор функций пламени на основе конфигурации.
 /// </summary>
-static List<FlameFunction> BuildFlameFunctions(FlameConfig config, ILogger logger)
+static List<FlameFunction> BuildFlameFunctions(FlameConfig config)
 {
+    var DefaultAffine = new AffineParameters(
+        a: 0.5, b: 0.0, c: 0.0,
+        d: 0.0, e: 0.5, f: 0.0
+    );
+
     var flameFunctions = new List<FlameFunction>(config.Functions.Count);
 
     for (int i = 0; i < config.Functions.Count; i++)
     {
         var funcConfig = config.Functions[i];
 
-        var transformation = TransformationFactory.Create(funcConfig.Name) 
+        var transformation = TransformationFactory.Create(funcConfig.Name)
             ?? throw new ConfigurationException(
                 $"Неизвестная функция трансформации '{funcConfig.Name}' (index={i}).",
                 new InvalidOperationException($"Unknown transformation: '{funcConfig.Name}'.")
@@ -106,10 +114,7 @@ static List<FlameFunction> BuildFlameFunctions(FlameConfig config, ILogger logge
 
         var affine = i < config.AffineParams.Count
             ? config.AffineParams[i]
-            : new AffineParameters(
-                a: 0.5, b: 0.0, c: 0.0,
-                d: 0.0, e: 0.5, f: 0.0
-            );
+            : DefaultAffine;
 
         flameFunctions.Add(new FlameFunction(affine, transformation, funcConfig.Weight));
     }

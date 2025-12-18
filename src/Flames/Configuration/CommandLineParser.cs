@@ -1,6 +1,7 @@
+using Flames.Application;
+using Flames.Models;
 using System.CommandLine;
 using System.Globalization;
-using Flames.Models;
 
 namespace Flames.Configuration;
 
@@ -12,7 +13,7 @@ public static class CommandLineParser
     /// <summary>
     /// Парсит аргументы командной строки
     /// </summary>
-    public static (FlameConfig? cliConfig, string? configPath, int exitCode) Parse(string[] args)
+    public static (FlameConfig? cliConfig, string? configPath, ExitCode exitCode) Parse(string[] args)
     {
         // ===== ОПЦИИ =====
         var widthOption = new Option<int>(
@@ -125,15 +126,16 @@ public static class CommandLineParser
             };
         });
 
-        int exitCode;
+        ExitCode exitCode;
 
         try
         {
-            exitCode = rootCommand.Invoke(args);
+            var rc = rootCommand.Invoke(args);
+            exitCode = rc == 0 ? ExitCode.Success : ExitCode.UserError;
         }
         catch
         {
-            exitCode = 1;
+            exitCode = ExitCode.UserError;
         }
 
         return (cliConfig, configPath, exitCode);
