@@ -1,5 +1,6 @@
-using System.Text.Json;
+using Flames.Configuration.Exceptions;
 using Flames.Models;
+using System.Text.Json;
 
 namespace Flames.Configuration;
 
@@ -16,24 +17,36 @@ public static class ConfigParser
     /// <summary>
     /// Загружает конфигурацию из JSON файла
     /// </summary>
-    public static FlameConfig? LoadFromJson(string filePath)
+    public static FlameConfig LoadFromJson(string filePath)
     {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new ConfigurationException(
+                "Путь к конфигурационному файлу пустой", 
+                new ArgumentException("filePath is null or whitespace", nameof(filePath))
+            );
+        }
+
         try
         {
             var json = File.ReadAllText(filePath);
 
-            return JsonSerializer.Deserialize<FlameConfig>(
-                json,
+            var config = JsonSerializer.Deserialize<FlameConfig>(
+                json, 
                 CachedJsonOptions
             );
+
+            return config ?? throw new JsonException("Десериализация вернула null: некорректный json");
         }
-        catch (IOException)
+        catch (Exception ex) when (ex is IOException 
+                                      or UnauthorizedAccessException
+                                      or JsonException
+                                      or ArgumentException)
         {
-            return null;
-        }
-        catch (JsonException)
-        {
-            return null;
+            throw new ConfigurationException(
+                $"Не удалось загрузить конфигурацию из файла '{filePath}'.",
+                ex
+            );
         }
     }
 
