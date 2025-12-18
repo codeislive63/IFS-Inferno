@@ -22,7 +22,7 @@ public static class ConfigParser
         if (string.IsNullOrWhiteSpace(filePath))
         {
             throw new ConfigurationException(
-                "Путь к конфигурационному файлу пустой", 
+                "Путь к конфигурационному файлу пустой",
                 new ArgumentException("filePath is null or whitespace", nameof(filePath))
             );
         }
@@ -32,13 +32,13 @@ public static class ConfigParser
             var json = File.ReadAllText(filePath);
 
             var config = JsonSerializer.Deserialize<FlameConfig>(
-                json, 
+                json,
                 CachedJsonOptions
             );
 
             return config ?? throw new JsonException("Десериализация вернула null: некорректный json");
         }
-        catch (Exception ex) when (ex is IOException 
+        catch (Exception ex) when (ex is IOException
                                       or UnauthorizedAccessException
                                       or JsonException
                                       or ArgumentException)

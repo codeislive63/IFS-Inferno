@@ -45,11 +45,11 @@ try
     var config = ConfigParser.Merge(jsonConfig, cliConfig);
 
     var errors = ConfigValidator.Validate(config);
-    
+
     if (errors.Count > 0)
     {
         logger.LogError("Ошибки валидации конфигурации:");
-        
+
         foreach (var error in errors)
         {
             logger.LogError(" - {Error}", error);

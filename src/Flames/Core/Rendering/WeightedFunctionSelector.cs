@@ -21,7 +21,7 @@ public sealed class WeightedFunctionSelector
         _cumulativeWeights = new double[functions.Count];
 
         double total = 0;
-        
+
         for (int i = 0; i < functions.Count; i++)
         {
             var w = Math.Max(0.0, functions[i].Weight);

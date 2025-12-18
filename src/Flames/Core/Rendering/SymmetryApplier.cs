@@ -25,7 +25,7 @@ public sealed class SymmetryApplier
         _width = width;
         _height = height;
         _rotations = new (double Cos, double Sin)[symmetryLevel];
-        
+
         double step = 2.0 * Math.PI / symmetryLevel;
 
         for (int s = 0; s < symmetryLevel; s++)

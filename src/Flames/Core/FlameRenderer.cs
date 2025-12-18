@@ -43,9 +43,9 @@ public sealed class FlameRenderer
     {
         _logger.LogInformation(
             "Начало генерации фрактального пламени. Размер: {Width}x{Height}, Итераций: {Iterations}, Потоков: {Threads}",
-            Width, 
-            Height, 
-            _config.IterationCount, 
+            Width,
+            Height,
+            _config.IterationCount,
             _config.Threads
         );
 

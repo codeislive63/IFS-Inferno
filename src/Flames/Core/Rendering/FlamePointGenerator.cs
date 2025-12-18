@@ -26,9 +26,9 @@ public sealed class FlamePointGenerator(
     /// В зависимости от значения <see cref="_config.Threads"/> выбирает однопоточный или многопоточный режим.
     /// </summary>
     public void Generate(
-        double[,] density, 
-        double[,] colorR, 
-        double[,] colorG, 
+        double[,] density,
+        double[,] colorR,
+        double[,] colorG,
         double[,] colorB)
     {
         if (_config.Threads <= 1)
